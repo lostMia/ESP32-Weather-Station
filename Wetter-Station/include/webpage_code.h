@@ -1,7 +1,17 @@
+/*
+ * @file webpage_code.h
+ * @authors Timeania
+ * @brief 
+ * @version 0.1.0
+ * @date 2024-05-15
+ *
+ * Copyright Deimo Elektronik GmbH (c) 2024
+*/
+#pragma once
 #ifndef WEBPAGE_H
 #define WEBPAGE_H
 
-const char* webpage = R"=====(
+const char* webpage_HTML = R"=====(
 <!DOCTYPE html>
 <html>
 <head>

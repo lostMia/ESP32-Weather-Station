@@ -8,29 +8,68 @@
  * Copyright Deimo Elektronik GmbH (c) 2024
 */
 
-#include "webpage.h"
-#include "main.hpp"
-
+#include "webserver.hpp"
+String temperatureStr;
+String humidityStr;
+String pressureStr;
+String windSpeedStr;
+String windDirectionStr;
 AsyncWebServer server(80);
+//Just for testing purposes
+float getTemperature() {
+  // YOUR SENSOR IMPLEMENTATION HERE
+  // simulate the temperature value
+  float temp_x100 = random(0, 10000);  // a ramdom value from 0 to 10000
+  return temp_x100 / 100;              // return the simulated temperature value from 0 to 100 in float
+}
+
+float getHumidity() {
+  // YOUR SENSOR IMPLEMENTATION HERE
+  // simulate the humidity value
+  float hum_x100 = random(0, 10000);  // a ramdom value from 0 to 10000
+  return hum_x100 / 100;              // return the simulated humidity value from 0 to 100 in float
+}
+
+float getPressure() {
+  // YOUR SENSOR IMPLEMENTATION HERE
+  // simulate the pressure value
+  float press_x100 = random(0, 10000);  // a ramdom value from 0 to 10000
+  return press_x100 / 100;              // return the simulated pressure value from 0 to 100 in float
+}
+
+float getWindSpeed() {
+  // YOUR SENSOR IMPLEMENTATION HERE
+  // simulate the wind speed value
+  float ws_x100 = random(0, 10000);  // a ramdom value from 0 to 10000
+  return ws_x100 / 100;              // return the simulated wind speed value from 0 to 100 in float
+}
+
+float getWindDirection() {
+  // YOUR SENSOR IMPLEMENTATION HERE
+  // simulate the wind direction value
+  float wd_x100 = random(0, 10000);  // a ramdom value from 0 to 10000
+  return wd_x100 / 100;              // return the simulated wind direction value from 0 to 100 in float
+}
+
 
 void runServer() {
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send_P(200, "text/html", index_html);
+    request->send_P(200, "text/html", webpage_HTML);
   });
 
   server.begin();
 }
 void getValues(){
     float temperature = getTemperature();
-    String temperatureStr = String(temperature, 2);
+    temperatureStr = String(temperature, 2);
     float humidity = getHumidity();
-    String humidityStr = String(humidity, 2);
+    humidityStr = String(humidity, 2);
     float pressure = getPressure();
-    String pressureStr = String(pressure, 2);
+    pressureStr = String(pressure, 2);
     float windSpeed = getWindSpeed();
-    String windSpeedStr = String(windSpeed, 2);
+    windSpeedStr = String(windSpeed, 2);
     float windDirection = getWindDirection();
-    String windDirectionStr = String(windDirection, 2);
+    windDirectionStr = String(windDirection, 2);
 }
 void updateValues() {
     server.on("/temperature", HTTP_GET, [](AsyncWebServerRequest* request) {

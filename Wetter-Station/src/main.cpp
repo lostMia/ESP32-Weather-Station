@@ -26,8 +26,14 @@ void setup() {
   Serial.println("WiFi connected!");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+
+  runServer();
+
 }
 
 void loop() {
-  // Your code here
+  getValues();
+  updateValues();
+  delay(1000);
+
 }

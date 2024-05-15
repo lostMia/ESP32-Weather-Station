@@ -1,6 +1,6 @@
 /*
- * @file main.hpp
- * @authors lostmia
+ * @file webserver.hpp
+ * @authors Timeania
  * @brief 
  * @version 0.1.0
  * @date 2024-05-15
@@ -14,8 +14,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <credentials.hpp> 
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include "webserver.cpp"
+#include "webpage_code.h"
 #define SERIAL_BAUDRATE 115200
