@@ -28,7 +28,7 @@ const char* webpage_HTML = R"=====(
             fetch("/temperature")
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById("temp").textContent = data.temp;
+                    document.getElementById("temp").textContent = data;
                 });
         }
         updateTemp();
@@ -37,7 +37,7 @@ const char* webpage_HTML = R"=====(
             fetch("/humidity")
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById("humid").textContent = data.humid;
+                    document.getElementById("humid").textContent = data;
                 });
         }
         updateHumid();
@@ -46,7 +46,7 @@ const char* webpage_HTML = R"=====(
             fetch("/windSpeed")
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById("ff").textContent = data.ff;
+                    document.getElementById("ff").textContent = data;
                 });
         }
         updateFF();
@@ -55,7 +55,7 @@ const char* webpage_HTML = R"=====(
             fetch("/windDirection")
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById("dd").textContent = data.dd;
+                    document.getElementById("dd").textContent = data;
                 });
         }
         updateDD();
@@ -64,7 +64,7 @@ const char* webpage_HTML = R"=====(
             fetch("/pressure")
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById("press").textContent = data.press;
+                    document.getElementById("press").textContent = data;
                 });
         }
         updatePress();
