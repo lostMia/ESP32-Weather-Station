@@ -10,14 +10,19 @@
 
 #include "main.hpp"
 
-void setup() {
+
+API::Client api;
+
+void setup() 
+{
   Serial.begin(SERIAL_BAUDRATE);
   Serial.println();
   Serial.print("Connecting to ");
-  Serial.println(WIFI_USERNAME);
-  WiFi.begin(WIFI_USERNAME, WIFI_PASSWORD);
+  Serial.println(WIFI_SSID);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) 
+  {
     delay(500);
     Serial.print(".");
   }
@@ -27,13 +32,13 @@ void setup() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
+  api.begin();
   runServer();
-
 }
 
 void loop() {
+  api.update_values();
   getValues();
   updateValues();
-  delay(1000);
-
+  delay(10000);
 }
