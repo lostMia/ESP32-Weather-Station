@@ -38,41 +38,11 @@ void getValues(){
 
 }
 void updateValues() {
-    server.on("/temperature", HTTP_GET, [](AsyncWebServerRequest* request) {
+    server.on("/data", HTTP_GET, [](AsyncWebServerRequest* request) {
         Serial.println("ESP32 Web Server: New request received:");  // for debugging
         Serial.println("GET /temperature");                         // for debugging
         request->send(200, "text/plain", temperatureStr);
     });
-    server.on("/humidity", HTTP_GET, [](AsyncWebServerRequest* request) {
-        Serial.println("ESP32 Web Server: New request received:");  // for debugging
-        Serial.println("GET /humidity");                            // for debugging
-        request->send(200, "text/plain", humidityStr);
-    });
-    server.on("/pressure", HTTP_GET, [](AsyncWebServerRequest* request) {
-        Serial.println("ESP32 Web Server: New request received:");  // for debugging
-        Serial.println("GET /pressure");                            // for debugging
-        request->send(200, "text/plain", pressureStr);
-    });
-    server.on("/windSpeed", HTTP_GET, [](AsyncWebServerRequest* request) {
-        Serial.println("ESP32 Web Server: New request received:");  // for debugging
-        Serial.println("GET /windSpeed");                           // for debugging
-        request->send(200, "text/plain", windSpeedStr);
-    });
-    server.on("/windDirection", HTTP_GET, [](AsyncWebServerRequest* request) {
-        Serial.println("ESP32 Web Server: New request received:");  // for debugging
-        Serial.println("GET /windDirection");                       // for debugging
-        request->send(200, "text/plain", windDirectionStr);
-    });
-    server.on("/rainAmount", HTTP_GET, [](AsyncWebServerRequest* request) {
-        Serial.println("ESP32 Web Server: New request received:");  // for debugging
-        Serial.println("GET /rainAmount");                          // for debugging
-        request->send(200, "text/plain", rainAmountStr);
-    });
-    server.on("/rainDuration", HTTP_GET, [](AsyncWebServerRequest* request) {
-        Serial.println("ESP32 Web Server: New request received:");  // for debugging
-        Serial.println("GET /rainDuration");                        // for debugging
-        request->send(200, "text/plain", rainDurationStr);
-    });
-    
+
   
 }
