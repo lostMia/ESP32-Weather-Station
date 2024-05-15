@@ -8,7 +8,6 @@
  * Copyright Deimo Elektronik GmbH (c) 2024
 */
 #pragma once
-#ifndef WEBPAGE_H
 #define WEBPAGE_H
 
 const char* webpage_HTML = R"=====(
@@ -75,4 +74,3 @@ const char* webpage_HTML = R"=====(
 </body>
 </html>
 )=====";
-#endif

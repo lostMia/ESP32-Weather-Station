@@ -9,6 +9,7 @@
 */
 
 #include "webserver.hpp"
+#include "webpage_code.hpp"
 String temperatureStr;
 String humidityStr;
 String pressureStr;
@@ -87,14 +88,14 @@ void updateValues() {
         Serial.println("GET /pressure");                            // for debugging
         request->send(200, "text/plain", pressureStr);
     });
-    server.on("/ff", HTTP_GET, [](AsyncWebServerRequest* request) {
+    server.on("/windSpeed", HTTP_GET, [](AsyncWebServerRequest* request) {
         Serial.println("ESP32 Web Server: New request received:");  // for debugging
-        Serial.println("GET /ff");                           // for debugging
+        Serial.println("GET /windSpeed");                           // for debugging
         request->send(200, "text/plain", windSpeedStr);
     });
-    server.on("/dd", HTTP_GET, [](AsyncWebServerRequest* request) {
+    server.on("/windDirection", HTTP_GET, [](AsyncWebServerRequest* request) {
         Serial.println("ESP32 Web Server: New request received:");  // for debugging
-        Serial.println("GET /dd");                           // for debugging
+        Serial.println("GET /windDirection");                       // for debugging
         request->send(200, "text/plain", windDirectionStr);
     });
 }

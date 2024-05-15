@@ -16,5 +16,9 @@
 #include <HTTPClient.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include "webpage_code.h"
 #define SERIAL_BAUDRATE 115200
+
+void runServer();
+void getValues();
+void updateValues();
+
