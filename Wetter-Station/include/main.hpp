@@ -29,5 +29,3 @@ a credentials.hpp file in the include directory and defining the variable there!
 #endif
 
 #define SERIAL_BAUDRATE 115200
-
-#definne
