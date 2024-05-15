@@ -31,18 +31,31 @@ void getValues(){
     String windSpeedStr = String(windSpeed, 2);
     float windDirection = getWindDirection();
     String windDirectionStr = String(windDirection, 2);
-    float rainAmount = getRain();
-    String rainAmountStr = String(rainAmount, 2);
-    float rainDuration = getRainDuration();
-    String rainDurationStr = String(rainDuration, 2);
-
 }
 void updateValues() {
-    server.on("/data", HTTP_GET, [](AsyncWebServerRequest* request) {
+    server.on("/temperature", HTTP_GET, [](AsyncWebServerRequest* request) {
         Serial.println("ESP32 Web Server: New request received:");  // for debugging
         Serial.println("GET /temperature");                         // for debugging
         request->send(200, "text/plain", temperatureStr);
     });
-
-  
+    server.on("/humidity", HTTP_GET, [](AsyncWebServerRequest* request) {
+        Serial.println("ESP32 Web Server: New request received:");  // for debugging
+        Serial.println("GET /humidity");                            // for debugging
+        request->send(200, "text/plain", humidityStr);
+    });
+    server.on("/pressure", HTTP_GET, [](AsyncWebServerRequest* request) {
+        Serial.println("ESP32 Web Server: New request received:");  // for debugging
+        Serial.println("GET /pressure");                            // for debugging
+        request->send(200, "text/plain", pressureStr);
+    });
+    server.on("/ff", HTTP_GET, [](AsyncWebServerRequest* request) {
+        Serial.println("ESP32 Web Server: New request received:");  // for debugging
+        Serial.println("GET /ff");                           // for debugging
+        request->send(200, "text/plain", windSpeedStr);
+    });
+    server.on("/dd", HTTP_GET, [](AsyncWebServerRequest* request) {
+        Serial.println("ESP32 Web Server: New request received:");  // for debugging
+        Serial.println("GET /dd");                           // for debugging
+        request->send(200, "text/plain", windDirectionStr);
+    });
 }
