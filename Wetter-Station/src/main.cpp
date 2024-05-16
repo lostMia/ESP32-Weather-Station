@@ -12,6 +12,8 @@
 
 
 API::Client api;
+API::STATUS result;
+
 
 void setup() 
 {
@@ -33,12 +35,29 @@ void setup()
   Serial.println(WiFi.localIP());
 
   api.begin();
+  api.update_values();
   runServer();
 }
 
-void loop() {
-  api.update_values();
+void loop() 
+{
+  result = api.update_values();
+  
+  if (result == API::ERROR)
+  {
+    Serial.printf("There was an error getting the values!");
+  }
+  else
+  {
+    Serial.printf("Request succesfull!\n");
+    Serial.printf("Air Pressure hPa: %f\n", api.air_pressure);
+    Serial.printf("Rain amount mm: %f\n", api.rain_amount);
+    Serial.printf("Rain duraction min : %f\n", api.rain_duration);
+    Serial.printf("Air Temperature in C: %f\n", api.temperature);
+    Serial.printf("Wind direction in degree: %f\n", api.wind_direction);
+  }
+
   getValues();
   updateValues();
-  delay(10000);
+  delay(API_QUERY_DELAY);
 }

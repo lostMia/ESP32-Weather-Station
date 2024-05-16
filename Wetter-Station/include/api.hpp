@@ -13,9 +13,11 @@
 #define API_QUERY   "https://dataset.api.hub.geosphere.at" \
                     "/v1/station/current/" \
                     "tawes-v1-10min" \
-                    "?parameters=P,RR,RRM,TL,DD" \
-                    "&station_ids=11320" \
+                    "?parameters=P,RR,RRM,TL,DD,FFX,FFAM,RFAM,SO" \
+                    "&station_ids=11035" \
                     "&output_format=geojson"
+
+#define API_QUERY_DELAY 60 * 10  // Wait 10 minutes between every request
 
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
@@ -38,23 +40,25 @@ class Client
 private:
     HTTPClient _client;
 
-    uint8_t _parse_json(String* presponse);
+    STATUS _parse_json(String* presponse);
 public:
-    // int16_t sunshine_amount = -1; // Amount of sunshine in Watt per square meter
-    int16_t air_pressure = -1;    // Air pressure in hPa
-    //int16_t humidity = -1;       // Humidity in %
-    int16_t rain_amount = -1;     // Amount of rain in mm
-    int16_t rain_duration = -1;   // Time of rain in min
-    int16_t temperature = -1;     // Temperature of the air in °C
-    int16_t wind_direction = -1;  // Direction of the wind in °
-    //int16_t wind_speed = -1;      // Windspeed in m/s
+    float air_pressure = -1;    // Air pressure in hPa
+    float humidity = -1;        // Air humidity in % 
+    float rain_amount = -1;     // Amount of rain in mm
+    float rain_duration = -1;   // Time of rain in min
+    float temperature = -1;     // Temperature of the air in °C
+    float wind_direction = -1;  // Direction of the wind in °
+    float wind_speed_average = -1;   // Average wind speed in m/s
+    float wind_speed_max = -1;  // Maximum wind speed in m/s
+    float sunshine_amount = -1; // Amount of sunshine in seconds 
+    //time_t last_updated_time;   // The time that the values were last updated.
                                   
      /**
      * @brief Initializes the client.
      * @returns 
      *          INVALID_URL when an invalid url to the api is given.
      */
-    uint8_t begin();
+    STATUS begin();
     
     /**
     * @brief Sends a HTTP GET request to the API and 
@@ -62,7 +66,7 @@ public:
     * @returns  
     *           ERROR when there was an error with the request.
     */
-    uint8_t update_values();
+    STATUS update_values();
     
 };
 
