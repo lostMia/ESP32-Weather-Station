@@ -29,6 +29,7 @@ uint8_t Client::begin()
 
 uint8_t Client::update_values()
 {
+  String response = "";
   int response_code = _client.GET();
 
   if (response_code != 200) 
@@ -37,21 +38,66 @@ uint8_t Client::update_values()
     return ERROR;
   }
 
-  String response = _client.getString();
-  Serial.println("Response:");
-  Serial.println(response);
+  response = _client.getString();
+  int result = _parse_json(&response);
 
   _client.end();
+  
+  if (result != OK)
+  {
+    Serial.printf("Values from response could not be resolved\nResponse: %s", response);
+    return ERROR;
+  }
 
   return OK;
 }
 
-uint8_t Client::_parse_json(String& response)
+uint8_t Client::_parse_json(String* presponse)
 {
-  // Todo::
-  // Update internal values by extracting them from the json.
+  String response = *presponse;
+  uint16_t response_length = response.length();
 
-  return 0;
+  DynamicJsonDocument response_json(response_length);
+  DeserializationError error = deserializeJson(response_json, response);
+
+  if (error) 
+  {
+    return ERROR;
+  }
+
+  JsonArray parameters = response_json["features"]["properties"]["parameters"].as<JsonArray>();
+  uint8_t index = 0;
+
+  // Parameters are always returned in the order we specify them in the url,
+  // therefore we can simply loop through them.
+  for (JsonObject parameter : parameters)
+  {
+    JsonArray data = parameter["data"].as<JsonArray>();
+
+    int value = data[0].as<uint16_t>();
+    
+    switch(index)
+    {
+      case 0:
+        air_pressure = data;
+        break;
+      case 1:
+        rain_amount = data;
+        break;
+      case 2:
+        rain_duration  = data;
+        break;
+      case 3:
+        temperature = data;
+        break;
+      case 4:
+        wind_direction = data;
+        break;
+    }
+    index++;
+  }
+
+  return OK;
 }
 
-}
+} // Namespace API
