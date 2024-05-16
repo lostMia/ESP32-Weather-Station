@@ -14,7 +14,7 @@
                     "/v1/station/current/" \
                     "tawes-v1-10min" \
                     "?parameters=P,RR,RRM,TL,DD" \
-                    "&station_ids=11803" \
+                    "&station_ids=11320" \
                     "&output_format=geojson"
 
 #include <HTTPClient.h>

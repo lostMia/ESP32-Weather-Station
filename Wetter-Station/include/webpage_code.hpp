@@ -14,6 +14,7 @@ const char* webpage_HTML = R"=====(
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">
     <title>ESP32 Wetter</title>
 </head>
 <body>
