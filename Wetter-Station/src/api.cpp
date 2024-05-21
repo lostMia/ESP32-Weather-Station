@@ -14,7 +14,7 @@ namespace API
 {
 
 
-STATUS Client::begin()
+Status Client::begin()
 {
   bool result;
   
@@ -24,17 +24,17 @@ STATUS Client::begin()
   {
     return ERROR;
   }
-  return OK;
+  return OKAY;
 }
 
-STATUS Client::update_values()
+Status Client::update_values()
 {
   String response;
   int response_code = _client.GET();
 
   if (response_code != 200) 
   {
-    Serial.printf("HTTP GET failed, error code: %d \nerror: %s\nResponse: %s", response_code, _client.errorToString(response_code).c_str(), _client.getString().c_str());
+    Serial.printf("HTTP GET failed, error code: %d \nerror: %s\nResponse: %s\n", response_code, _client.errorToString(response_code).c_str(), _client.getString().c_str());
     return ERROR;
   }
 
@@ -43,16 +43,16 @@ STATUS Client::update_values()
 
   _client.end();
   
-  if (result != OK)
+  if (result != OKAY)
   {
-    Serial.printf("Values from response could not be resolved\nResponse: %s", response.c_str());
+    Serial.printf("Values from response could not be resolved\nResponse: %s\n", response.c_str());
     return ERROR;
   }
 
-  return OK;
+  return OKAY;
 }
 
-STATUS Client::_parse_json(String* presponse)
+Status Client::_parse_json(String* presponse)
 {
   String response = *presponse;
   JsonDocument response_json;
@@ -69,18 +69,15 @@ STATUS Client::_parse_json(String* presponse)
                           [0]
                           ["properties"]
                           ["parameters"];
+  
+  uint8_t count = 0;
+  for (String parameter : parameter_strings)
+  {
+    *variables[count] = parameters[parameter]["data"][0];
+    count++;
+  }
 
-  air_pressure = parameters["P"]["data"][0];
-  humidity = parameters["RFAM"]["data"][0];
-  rain_amount = parameters["RR"]["data"][0];
-  rain_duration = parameters["RRM"]["data"][0];
-  temperature = parameters["TL"]["data"][0];
-  wind_direction = parameters["DD"]["data"][0];
-  wind_speed_average = parameters["FFAM"]["data"][0];
-  wind_speed_max = parameters["FFX"]["data"][0];
-  sunshine_amount = parameters["SO"]["data"][0];
-
-  return OK;
+  return OKAY;
 }
 
 } // Namespace API

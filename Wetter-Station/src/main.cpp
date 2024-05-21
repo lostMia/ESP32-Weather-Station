@@ -1,7 +1,7 @@
 /*
  * @file main.cpp
- * @authors lostmia
- * @brief 
+ * @authors Timeania, lostmia
+ * @brief Main class for getting values from the internet and hosting a webserver.
  * @version 0.1.0
  * @date 2024-05-15
  *
@@ -12,7 +12,8 @@
 
 
 API::Client api;
-API::STATUS result;
+Web::Server server(WEBSERVER_PORT);
+Status result;
 
 
 void setup() 
@@ -36,28 +37,19 @@ void setup()
 
   api.begin();
   api.update_values();
-  runServer();
+  server.begin();
 }
 
 void loop() 
 {
   result = api.update_values();
   
-  if (result == API::ERROR)
+  if (result == ERROR)
   {
     Serial.printf("There was an error getting the values!");
   }
-  else
-  {
-    Serial.printf("Request succesfull!\n");
-    Serial.printf("Air Pressure hPa: %f\n", api.air_pressure);
-    Serial.printf("Rain amount mm: %f\n", api.rain_amount);
-    Serial.printf("Rain duraction min : %f\n", api.rain_duration);
-    Serial.printf("Air Temperature in C: %f\n", api.temperature);
-    Serial.printf("Wind direction in degree: %f\n", api.wind_direction);
-  }
 
-  getValues();
-  updateValues();
+  server.update_values(&api);
+
   delay(API_QUERY_DELAY);
 }

@@ -1,7 +1,7 @@
 /*
  * @file api.hpp
  * @authors lostmia
- * @brief 
+ * @brief Defines a Client class used for interacting with the weather API.
  * @version 0.1.0
  * @date 2024-05-15
  *
@@ -17,10 +17,12 @@
                     "&station_ids=11035" \
                     "&output_format=geojson"
 
-#define API_QUERY_DELAY 60 * 10  // Wait 10 minutes between every request
+#define API_QUERY_DELAY 60 * 10 * 1000  // Wait 10 minutes between every request
 
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
+
+#include "enums.hpp"
 
 // This Namespace and all it's functions and classes are used for
 // communication with the weather api, and getting its values from 
@@ -28,19 +30,12 @@
 namespace API
 {
 
-// Return codes for the api.
-enum STATUS
-{
-    OK = 0,
-    ERROR = 1,
-};
-
 class Client
 {
 private:
     HTTPClient _client;
 
-    STATUS _parse_json(String* presponse);
+    Status _parse_json(String* presponse);
 public:
     float air_pressure = -1;    // Air pressure in hPa
     float humidity = -1;        // Air humidity in % 
@@ -51,14 +46,23 @@ public:
     float wind_speed_average = -1;   // Average wind speed in m/s
     float wind_speed_max = -1;  // Maximum wind speed in m/s
     float sunshine_amount = -1; // Amount of sunshine in seconds 
-    //time_t last_updated_time;   // The time that the values were last updated.
+    float *variables[9]  =      // Pointers to all the Variables in order.
+    {    
+        &air_pressure, &humidity, &rain_amount, &rain_duration,
+        &temperature, &wind_direction, &wind_speed_average, 
+        &wind_speed_max, &sunshine_amount
+    };
+    String parameter_strings[9] =      // Pointers to all parameter strings in order.
+    {
+        "P", "RFAM", "RR", "RRM", "TL", "DD", "FFAM", "FFX", "SO"
+    };
                                   
      /**
      * @brief Initializes the client.
      * @returns 
      *          INVALID_URL when an invalid url to the api is given.
      */
-    STATUS begin();
+    Status begin();
     
     /**
     * @brief Sends a HTTP GET request to the API and 
@@ -66,8 +70,7 @@ public:
     * @returns  
     *           ERROR when there was an error with the request.
     */
-    STATUS update_values();
-    
+    Status update_values();
 };
 
-}
+} // nampespace API

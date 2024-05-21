@@ -18,6 +18,7 @@
 
 #include "webserver.hpp"
 #include "api.hpp"
+#include "enums.hpp"
 
 
 #ifndef WIFI_PASSWORD
@@ -31,3 +32,5 @@
 #endif
 
 #define SERIAL_BAUDRATE 115200
+
+#define WEBSERVER_PORT 80
