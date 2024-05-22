@@ -14,6 +14,7 @@
 API::Client api;
 Web::Server server(WEBSERVER_PORT);
 Status result;
+sens::Sensor sensor;
 
 
 void setup() 
@@ -38,12 +39,13 @@ void setup()
   api.begin();
   api.update_values();
   server.begin();
+  sensor.begin();
 }
 
 void loop() 
 {
   result = api.update_values();
-  
+  sensor.update_values();
   if (result == ERROR)
   {
     Serial.printf("There was an error getting the values!");

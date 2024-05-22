@@ -19,6 +19,7 @@
 #include "webserver.hpp"
 #include "api.hpp"
 #include "enums.hpp"
+#include "sensor.hpp"
 
 
 #ifndef WIFI_PASSWORD

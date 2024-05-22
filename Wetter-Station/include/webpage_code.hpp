@@ -118,6 +118,10 @@ R"=====(
         startUpdating(updateWindSpeedMax, 5000);
         startUpdating(updateSunshineAmount, 5000);
     </script>
+    <h1>Wetter im Raum (oda so[keine ahnung wie i des sonsch nennen soll])</h1>
+    <p>Innentemperatur: <span id="temperature_inside">Loading...</span> C</p>
+    <p>Luftfeuchtigkeit: <span id="humidity_inside">Loading...</span> %</p>
+
 </body>
 </html>
 )=====";
