@@ -45,7 +45,7 @@ void setup()
 
 void loop() 
 {
-  if (count < 600)
+  if (count > 600)
   {
     result = api.update_values();
     if (result == ERROR)

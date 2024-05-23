@@ -54,6 +54,9 @@ R"=====(
                     document.getElementById("wind_speed_average").textContent = data.FFAM + " m/s";
                     document.getElementById("wind_speed_max").textContent = data.FFX + " m/s";
                     document.getElementById("sunshine_amount").textContent = data.SO + " seconds";
+                    document.getElementById("inner_temp").textContent = data.inner_temp + " C";
+                    document.getElementById("inner_hum").textContent = data.inner_hum + " %";
+                    document.getElementById("inner_heat_index").textContent = data.inner_heat_index + " C";
                 })
                 .catch(error => console.error('Error fetching data:', error));
         }
