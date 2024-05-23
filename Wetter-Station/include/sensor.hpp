@@ -7,6 +7,9 @@
  *
  * Copyright Deimo Elektronik GmbH (c) 2024
 */
+
+#pragma once
+
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
@@ -22,8 +25,17 @@ class Sensor
 private:
     DHT_Unified dht{DHTPIN, DHTTYPE};
 public:
+    float inner_temperature = -1;
+    float inner_humidity = -1;
+    float inner_heat_index = -1;
+    float *variables[3] = 
+    {&inner_temperature, &inner_humidity, &inner_heat_index};
+    const char *parameter_strings[3] = 
+    {"inner_temp", "inner_hum", "inner_heat_index"};
     void begin();
     void update_values();
+    void calculateHeatIndex(float temperatureC, float humidity);
+
 };
 
 } // namespace sens

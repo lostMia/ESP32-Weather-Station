@@ -18,9 +18,8 @@
 
 #include "webserver.hpp"
 #include "api.hpp"
-#include "enums.hpp"
 #include "sensor.hpp"
-
+#include "enums.hpp"
 
 #ifndef WIFI_PASSWORD
 'The Variable "WIFI_PASSWORD" is not set! You can do this by creating'
@@ -35,3 +34,4 @@
 #define SERIAL_BAUDRATE 115200
 
 #define WEBSERVER_PORT 80
+

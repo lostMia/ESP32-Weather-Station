@@ -24,7 +24,7 @@ void Server::begin()
   _server.begin();
 }
 
-void Server::update_values(API::Client *client) 
+void Server::update_values(API::Client *client, sens::Sensor *sensor) 
 {
   uint8_t count = 0;
   for (float *variable : client->variables)

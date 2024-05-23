@@ -17,6 +17,7 @@
 #include <ESPAsyncWebServer.h>
 
 #include "api.hpp"
+#include "sensor.hpp"
 #include "enums.hpp"
 
 namespace Web
@@ -31,7 +32,7 @@ public:
     {};
 
     void begin();
-    void update_values(API::Client *client);
+    void update_values(API::Client *client, sens::Sensor *sensor);
 };
 
 } // namespace Web

@@ -128,9 +128,9 @@ R"=====(
         startUpdating(updateSunshineAmount, 5000);
     </script>
     <h1>Wetter im Raum (oda so keine ahnung wie i des sonsch nennen soll])</h1>
-    <p>Innentemperatur: <span id="temperature_inside">Loading...</span> C</p>
-    <p>Luftfeuchtigkeit: <span id="humidity_inside">Loading...</span> %</p>
-
+    <p>Innentemperatur: <span id="inner_temp">Loading...</span> C</p>
+    <p>Luftfeuchtigkeit: <span id="inner_hum">Loading...</span> %</p>
+    <p>Hitzeindex: <span id="inner_heat_index">Loading...</span> C</p>
 </body>
 </html>
 )=====";

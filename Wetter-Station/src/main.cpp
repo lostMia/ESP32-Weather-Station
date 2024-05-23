@@ -10,6 +10,7 @@
 
 #include "main.hpp"
 
+int count = 0;
 
 API::Client api;
 Web::Server server(WEBSERVER_PORT);
@@ -44,14 +45,17 @@ void setup()
 
 void loop() 
 {
-  result = api.update_values();
-  sensor.update_values();
-  if (result == ERROR)
+  if (count < 600)
   {
-    Serial.printf("There was an error getting the values!");
+    result = api.update_values();
+    if (result == ERROR)
+    {
+      Serial.printf("There was an error getting the values!");
+    }
+    count = 0;
   }
-
-  server.update_values(&api);
-
-  delay(API_QUERY_DELAY);
+  count++;
+  sensor.update_values();
+  server.update_values(&api,&sensor);
+  delay(1000);
 }
