@@ -26,6 +26,8 @@ class Server
 {
 private:
     AsyncWebServer _server;
+    
+    void _add_to_variable_string(String* variable_string, String* parameter, float* value);
 public:
     Server(uint16_t port) : _server(port) 
     {};
