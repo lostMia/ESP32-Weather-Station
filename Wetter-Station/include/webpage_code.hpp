@@ -39,93 +39,27 @@ R"=====(
     <p>Wind Durchschnittsgeschwindigkeit: <span id="wind_speed_average">Loading...</span> m/s</p>
     <p>Wind Maximalgeschwindigkeit: <span id="wind_speed_max">Loading...</span> m/s</p>
     <p>Sonnenschein: <span id="sunshine_amount">Loading...</span> sekunden</p>
+
     <script>
-        function updatePressure() {
-            fetch("/P")
-                .then(response => response.text())
+        function updateData() {
+            fetch("/data")
+                .then(response => response.json())
                 .then(data => {
-                    document.getElementById("pressure").textContent = data;
-                });
+                    document.getElementById("pressure").textContent = data.P + " hPa";
+                    document.getElementById("humidity").textContent = data.RFAM + " %";
+                    document.getElementById("rain_amount").textContent = data.RR + " mm";
+                    document.getElementById("rain_duration").textContent = data.RRM + " min";
+                    document.getElementById("temperature").textContent = data.TL + " °C";
+                    document.getElementById("wind_direction").textContent = data.DD + " degrees";
+                    document.getElementById("wind_speed_average").textContent = data.FFAM + " m/s";
+                    document.getElementById("wind_speed_max").textContent = data.FFX + " m/s";
+                    document.getElementById("sunshine_amount").textContent = data.SO + " seconds";
+                })
+                .catch(error => console.error('Error fetching data:', error));
         }
 
-        function updateHumidity() {
-            fetch("/RFAM")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("humidity").textContent = data;
-                });
-        }
-
-        function updateRainAmount() {
-            fetch("/RR")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("rain_amount").textContent = data;
-                });
-        }
-
-        function updateRainDuration() {
-            fetch("/RRM")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("rain_duration").textContent = data;
-                });
-        }
-
-        function updateTemperature() {
-            fetch("/TL")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("temperature").textContent = data;
-                });
-        }
-
-        function updateWindDirection() {
-            fetch("/DD")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("wind_direction").textContent = data;
-                });
-        }
-
-        function updateWindSpeedAverage() {
-            fetch("/FFAM")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("wind_speed_average").textContent = data;
-                });
-        }
-
-        function updateWindSpeedMax() {
-            fetch("/FFX")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("wind_speed_max").textContent = data;
-                });
-        }
-
-        function updateSunshineAmount() {
-            fetch("/SO")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("sunshine_amount").textContent = data;
-                });
-        }
-
-        function startUpdating(updateFunction, interval) {
-            updateFunction();
-            setInterval(updateFunction, interval);
-        }
-
-        startUpdating(updatePressure, 5000);
-        startUpdating(updateHumidity, 5000);
-        startUpdating(updateRainAmount, 5000);
-        startUpdating(updateRainDuration, 5000);
-        startUpdating(updateTemperature, 5000);
-        startUpdating(updateWindDirection, 5000);
-        startUpdating(updateWindSpeedAverage, 5000);
-        startUpdating(updateWindSpeedMax, 5000);
-        startUpdating(updateSunshineAmount, 5000);
+        updateData();
+        setInterval(updateData, 5000);
     </script>
     <h1>Wetter im Raum (oda so keine ahnung wie i des sonsch nennen soll])</h1>
     <p>Innentemperatur: <span id="inner_temp">Loading...</span> C</p>

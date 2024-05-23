@@ -14,6 +14,13 @@
 namespace Web
 {
 
+void Server::_add_to_variable_string(String* variable_string, String* parameter, float* value)
+{
+  String parameter_string = *parameter;
+  String value_string = String(*value, 2);
+  *variable_string += "\"" + parameter_string + "\":" + value_string + ",";
+}
+
 void Server::begin() 
 {
   _server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) 
@@ -27,18 +34,24 @@ void Server::begin()
 void Server::update_values(API::Client *client, sens::Sensor *sensor) 
 {
   uint8_t count = 0;
+  String variable_string = "{";
+
   for (float *variable : client->variables)
   {
-    String variable_string = String(*variable, 2);
-    String parameter_string = "/" + client->parameter_strings[count];
-
-    _server.on(parameter_string.c_str(), HTTP_GET, [variable_string](AsyncWebServerRequest* request) 
-    {
-        request->send(200, "text/plain", variable_string);
-    });
+    _add_to_variable_string(&variable_string, &client->parameter_strings[count], client->variables[count]);
 
     count++;
   }
+  
+  // Deletes the last ',' from the string.
+  variable_string.remove(variable_string.length() - 1);
+
+  variable_string += "}";
+
+  _server.on("/data", HTTP_GET, [variable_string](AsyncWebServerRequest* request) 
+  {
+      request->send(200, "text/plain", variable_string.c_str());
+  });
 }
 
 } // namespace Web
