@@ -48,7 +48,15 @@ R"=====(
                 });
         }
 
-        function updateRainAmount() {  // Fixed the missing parenthesis
+        function updateHumidity() {
+            fetch("/RFAM")
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("humidity").textContent = data;
+                });
+        }
+
+        function updateRainAmount() {
             fetch("/RR")
                 .then(response => response.text())
                 .then(data => {
@@ -110,6 +118,7 @@ R"=====(
         }
 
         startUpdating(updatePressure, 5000);
+        startUpdating(updateHumidity, 5000);
         startUpdating(updateRainAmount, 5000);
         startUpdating(updateRainDuration, 5000);
         startUpdating(updateTemperature, 5000);
@@ -118,7 +127,7 @@ R"=====(
         startUpdating(updateWindSpeedMax, 5000);
         startUpdating(updateSunshineAmount, 5000);
     </script>
-    <h1>Wetter im Raum (oda so[keine ahnung wie i des sonsch nennen soll])</h1>
+    <h1>Wetter im Raum (oda so keine ahnung wie i des sonsch nennen soll])</h1>
     <p>Innentemperatur: <span id="temperature_inside">Loading...</span> C</p>
     <p>Luftfeuchtigkeit: <span id="humidity_inside">Loading...</span> %</p>
 
