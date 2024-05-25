@@ -27,6 +27,10 @@ void Server::begin()
   {
     request->send_P(200, "text/html", webpage_HTML);
   });
+  _server.on("/data", HTTP_GET, [this](AsyncWebServerRequest* request) 
+  {
+    request->send(200, "text/plain", variable_string.c_str());
+  });
 
   _server.begin();
 }
@@ -34,7 +38,7 @@ void Server::begin()
 void Server::update_values(API::Client *client, sens::Sensor *sensor) 
 {
   uint8_t count = 0;
-  String variable_string = "{";
+  variable_string = "{";
 
   for (float *variable : client->variables)
   {
@@ -54,11 +58,6 @@ void Server::update_values(API::Client *client, sens::Sensor *sensor)
   variable_string.remove(variable_string.length() - 1);
 
   variable_string += "}";
-
-  _server.on("/data", HTTP_GET, [variable_string](AsyncWebServerRequest* request) 
-  {
-      request->send(200, "text/plain", variable_string.c_str());
-  });
 }
 
 } // namespace Web

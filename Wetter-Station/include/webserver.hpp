@@ -27,6 +27,7 @@ class Server
 {
 private:
     AsyncWebServer _server;
+    String variable_string;
     
     void _add_to_variable_string(String* variable_string, String* parameter, float* value);
 public:
