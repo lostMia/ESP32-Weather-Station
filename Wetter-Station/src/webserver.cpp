@@ -46,6 +46,7 @@ void Server::update_values(API::Client *client, sens::Sensor *sensor)
 
     count++;
   }
+
   count = 0;
   for (float *variable : sensor->variables)
   {
@@ -56,7 +57,6 @@ void Server::update_values(API::Client *client, sens::Sensor *sensor)
 
   // Deletes the last ',' from the string.
   variable_string.remove(variable_string.length() - 1);
-
   variable_string += "}";
 }
 

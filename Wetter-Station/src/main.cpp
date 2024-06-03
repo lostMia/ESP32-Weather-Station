@@ -14,8 +14,16 @@ int count = 0;
 
 API::Client api;
 Web::Server server(WEBSERVER_PORT);
-Status result;
 sens::Sensor sensor;
+
+Status result;
+
+/*
+Todo:
+* Enable the input of multible Sensors on the esp
+  * Use the ESP to scan for possibe 
+
+*/
 
 
 void setup() 
@@ -48,6 +56,7 @@ void loop()
   if (count > 600)
   {
     result = api.update_values();
+
     if (result == ERROR)
     {
       Serial.printf("There was an error getting the values!");
@@ -55,7 +64,8 @@ void loop()
     count = 0;
   }
   count++;
+
   sensor.update_values();
-  server.update_values(&api,&sensor);
+  server.update_values(&api, &sensor);
   delay(1000);
 }

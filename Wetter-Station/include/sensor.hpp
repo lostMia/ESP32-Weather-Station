@@ -15,15 +15,15 @@
 #include <DHT_U.h>
 
 #define DHTPIN 4 
-
 #define DHTTYPE    DHT22     // DHT 22
+
 namespace sens
 {
 
 class Sensor
 {
 private:
-    DHT_Unified dht{DHTPIN, DHTTYPE};
+    DHT_Unified _dht{DHTPIN, DHTTYPE};
 public:
     float inner_temperature = -1;
     float inner_humidity = -1;

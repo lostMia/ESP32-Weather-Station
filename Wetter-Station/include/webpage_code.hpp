@@ -30,6 +30,7 @@ R"=====(
 </head>
 <body>
     <h1>ESP32 Wetter</h1>
+    <h3>API Innsbruck Wetter Station</h3>
     <p>Luftdruck: <span id="pressure">Loading...</span> hPa</p>
     <p>Feuchtigkeit: <span id="humidity">Loading...</span> %</p>
     <p>Niederschlag: <span id="rain_amount">Loading...</span> mm</p>
@@ -39,33 +40,60 @@ R"=====(
     <p>Wind Durchschnittsgeschwindigkeit: <span id="wind_speed_average">Loading...</span> m/s</p>
     <p>Wind Maximalgeschwindigkeit: <span id="wind_speed_max">Loading...</span> m/s</p>
     <p>Sonnenschein: <span id="sunshine_amount">Loading...</span> sekunden</p>
-    <h1>Wetter im Raum (oda so keine ahnung wie i des sonsch nennen soll])</h1>
-    <p>Innentemperatur: <span id="inner_temp">Loading...</span> C</p>
-    <p>Luftfeuchtigkeit: <span id="inner_hum">Loading...</span> %</p>
-    <p>Hitzeindex: <span id="inner_heat_index">Loading...</span> C</p>
+    <h3>Sensordaten</h3>
+    <div id="sensor-data-container">
+        Loading data...
+    </div>
+
     <script>
-        function updateData() {
+        function updateAPIData() {
             fetch("/data")
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById("pressure").textContent = data.P;
-                    document.getElementById("humidity").textContent = data.RFAM;
-                    document.getElementById("rain_amount").textContent = data.RR;
-                    document.getElementById("rain_duration").textContent = data.RRM;
-                    document.getElementById("temperature").textContent = data.TL;
-                    document.getElementById("wind_direction").textContent = data.DD;
-                    document.getElementById("wind_speed_average").textContent = data.FFAM;
-                    document.getElementById("wind_speed_max").textContent = data.FFX;
-                    document.getElementById("sunshine_amount").textContent = data.SO;
-                    document.getElementById("inner_temp").textContent = data.inner_temp;
-                    document.getElementById("inner_hum").textContent = data.inner_hum;
-                    document.getElementById("inner_heat_index").textContent = data.inner_heat_index;
-                })
-                .catch(error => console.error('Error fetching data:', error));
+                    document.getElementById("pressure").textContent = data.P + " hPa";
+                    document.getElementById("humidity").textContent = data.RFAM + " %";
+                    document.getElementById("rain_amount").textContent = data.RR + " mm";
+                    document.getElementById("rain_duration").textContent = data.RRM + " min";
+                    document.getElementById("temperature").textContent = data.TL + " °C";
+                    document.getElementById("wind_direction").textContent = data.DD + " degrees";
+                    document.getElementById("wind_speed_average").textContent = data.FFAM + " m/s";
+                    document.getElementById("wind_speed_max").textContent = data.FFX + " m/s";
+                    document.getElementById("sunshine_amount").textContent = data.SO + " seconds";
+            })
+            .catch(error => console.error('Error fetching API Data!:', error));
+        }
+        
+        async function updateSensorData() {
+            try {
+                const response = await fetch("/sensors");
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                updateSensorUI(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById("sensor-data-container").textContent = 'Error fetching data';
+            }
         }
 
-        updateData();
-        setInterval(updateData, 1000);
+        function updateSensorUI(data) {
+            const container = document.getElementById("data-container");
+            container.innerHTML = ''; // Clear existing content
+
+            data.forEach(sensor => {
+                const div = document.createElement("div");
+                div.className = "sensor-data";
+                div.textContent = `Sensor ${sensor.id} - Temperature: ${sensor.temperature} °C, Humidity: ${sensor.humidity} %`;
+                container.appendChild(div);
+            });
+        }
+
+        updateSensorData();
+        setInterval(updateSensorData, 1000);
+
+        updateAPIData();
+        setInterval(updateAPIData, 1000);
     </script>
 </body>
 </html>

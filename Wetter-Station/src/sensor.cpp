@@ -15,13 +15,14 @@ namespace sens{
     
     void Sensor::begin()
     {
-        dht.begin();
+        _dht.begin();
     }
+
     void Sensor::update_values()
     {
         sensors_event_t event;
         // Get temperature event and print its value.
-        dht.temperature().getEvent(&event);
+        _dht.temperature().getEvent(&event);
         if (isnan(event.temperature)) {
             Serial.println(F("Error reading temperature!"));
         }
@@ -32,7 +33,7 @@ namespace sens{
             Serial.println(F("°C"));
         }
         // Get humidity event and print its value.
-        dht.humidity().getEvent(&event);
+        _dht.humidity().getEvent(&event);
         if (isnan(event.relative_humidity)) {
             Serial.println(F("Error reading humidity!"));
         }
