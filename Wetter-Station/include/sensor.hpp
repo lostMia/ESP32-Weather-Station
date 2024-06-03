@@ -14,7 +14,6 @@
 #include <DHT.h>
 #include <DHT_U.h>
 
-#define DHTPIN 4 
 #define DHTTYPE    DHT22     // DHT 22
 
 namespace sens
@@ -23,22 +22,29 @@ namespace sens
 class Sensor
 {
 private:
-    DHT_Unified _dht{DHTPIN, DHTTYPE};
+    DHT_Unified _dht{_pin, DHTTYPE};
+    uint8_t _pin = 0;
 public:
-    float inner_temperature = -1;
-    float inner_humidity = -1;
-    float inner_heat_index = -1;
-    float *variables[3] = 
+    float _temperatureC = -1;
+    float _temperatureF = -1;
+    float _humidity = -1;
+    float _heat_index = -1;
+    float *_variables[3] = 
     {
-        &inner_temperature, &inner_humidity, &inner_heat_index
+        &_temperatureC, &_humidity, &_heat_index
     };
+    
+    String _parameter_strings[3] = 
+    {"temperature", "humidity", "heat_index"};
 
-    String parameter_strings[3] = 
-    {"inner_temp", "inner_hum", "inner_heat_index"};
 
+    Sensor(uint8_t pin);
+
+    ~Sensor();
+    
     void begin();
     void update_values();
-    void calculateHeatIndex(float temperatureC, float humidity);
+    void calculateHeatIndex();
 
 };
 

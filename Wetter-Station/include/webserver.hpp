@@ -15,6 +15,8 @@
 #include <HTTPClient.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <vector> 
+#include <ArduinoJson.h>
 
 #include "api.hpp"
 #include "sensor.hpp"
@@ -27,15 +29,20 @@ class Server
 {
 private:
     AsyncWebServer _server;
-    String variable_string;
+    String _api_data_string;
+    String _sensor_data_string;
+    API::Client *_p_client;
+    std::vector<sens::Sensor> *_p_sensors;
     
-    void _add_to_variable_string(String* variable_string, String* parameter, float* value);
+    
+    void _add_to_json_string(String* string, String* parameter, float* value);
+    void _update_api_string();
+    void _update_sensor_string();
 public:
-    Server(uint16_t port) : _server(port) 
-    {};
+    Server(uint16_t port);
 
-    void begin();
-    void update_values(API::Client *client, sens::Sensor *sensor);
+    void begin(API::Client *client, std::vector<sens::Sensor> *sensors);
+    void update_values();
 };
 
 } // namespace Web

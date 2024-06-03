@@ -14,50 +14,91 @@
 namespace Web
 {
 
-void Server::_add_to_variable_string(String* variable_string, String* parameter, float* value)
+Server::Server(uint16_t port) : _server(port)
+{}
+
+void Server::_add_to_json_string(String* variable_string, String* parameter, float* value)
 {
   String parameter_string = *parameter;
   String value_string = String(*value, 2);
+
   *variable_string += "\"" + parameter_string + "\":" + value_string + ",";
 }
 
-void Server::begin() 
-{
-  _server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) 
-  {
-    request->send_P(200, "text/html", webpage_HTML);
-  });
-  _server.on("/data", HTTP_GET, [this](AsyncWebServerRequest* request) 
-  {
-    request->send(200, "text/plain", variable_string.c_str());
-  });
-
-  _server.begin();
-}
-
-void Server::update_values(API::Client *client, sens::Sensor *sensor) 
+void Server::_update_api_string()
 {
   uint8_t count = 0;
-  variable_string = "{";
+  _api_data_string = "{";
 
-  for (float *variable : client->variables)
+  for (float *variable : _p_client->_variables)
   {
-    _add_to_variable_string(&variable_string, &client->parameter_strings[count], client->variables[count]);
-
-    count++;
-  }
-
-  count = 0;
-  for (float *variable : sensor->variables)
-  {
-    _add_to_variable_string(&variable_string, &sensor->parameter_strings[count], sensor->variables[count]);
+    _add_to_json_string(&_api_data_string, &_p_client->_parameter_strings[count], _p_client->_variables[count]);
 
     count++;
   }
 
   // Deletes the last ',' from the string.
-  variable_string.remove(variable_string.length() - 1);
-  variable_string += "}";
+  _api_data_string.remove(_api_data_string.length() - 1);
+  _api_data_string += "}";
+}
+
+void Server::_update_sensor_string()
+{ 
+  JsonDocument json_doc;
+
+  JsonArray array = json_doc.to<JsonArray>();
+
+  uint8_t id = 0;
+  for (const sens::Sensor &sensor : *_p_sensors) {
+      JsonObject obj = array.createNestedObject();
+
+      obj["id"] = id;
+      obj["temperatureC"] = sensor._temperatureC;
+      obj["temperatureF"] = sensor._temperatureF;
+      obj["humidity"] = sensor._humidity;
+      obj["heat_index"] = sensor._heat_index;
+
+      id++;
+  }
+
+  serializeJson(json_doc, _sensor_data_string);
+}
+
+void Server::begin(API::Client *client, std::vector<sens::Sensor> *sensors) 
+{
+  _p_client = client;
+  _p_sensors = sensors;
+
+  client->begin();
+
+  for (sens::Sensor &sensor : *_p_sensors)
+    sensor.begin();
+
+  _server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) 
+  {
+    request->send_P(200, "text/html", webpage_HTML);
+  });
+  _server.on("/api", HTTP_GET, [this](AsyncWebServerRequest* request) 
+  {
+    request->send(200, "text/plain", _api_data_string.c_str());
+  });
+  _server.on("/sensors", HTTP_GET, [this](AsyncWebServerRequest* request) 
+  {
+    request->send(200, "text/plain", _sensor_data_string.c_str());
+  });
+
+  _server.begin();
+}
+
+void Server::update_values() 
+{
+  _p_client->update_values();
+  
+  for (sens::Sensor &sensor : *_p_sensors)
+    sensor.update_values();
+
+  _update_api_string();
+  _update_sensor_string();
 }
 
 } // namespace Web

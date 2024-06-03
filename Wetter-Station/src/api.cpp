@@ -13,7 +13,6 @@
 namespace API
 {
 
-
 Status Client::begin()
 {
   bool result;
@@ -71,9 +70,9 @@ Status Client::_parse_json(String* presponse)
                           ["parameters"];
   
   uint8_t count = 0;
-  for (String parameter : parameter_strings)
+  for (String parameter : _parameter_strings)
   {
-    *variables[count] = parameters[parameter]["data"][0];
+    *_variables[count] = parameters[parameter]["data"][0];
     count++;
   }
 

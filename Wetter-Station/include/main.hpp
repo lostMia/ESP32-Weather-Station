@@ -15,6 +15,7 @@
 #include <credentials.hpp> 
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <vector>
 
 #include "webserver.hpp"
 #include "api.hpp"
@@ -34,4 +35,6 @@
 #define SERIAL_BAUDRATE 115200
 
 #define WEBSERVER_PORT 80
+
+#define SENSOR_PORTS { 4, 5 }
 

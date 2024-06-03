@@ -13,6 +13,18 @@
 
 namespace sens{
     
+    Sensor::Sensor(uint8_t pin)
+    {
+        _pin = pin;
+    }
+
+    Sensor::~Sensor()
+    {
+        Serial.print(F("Sensor at pin "));
+        Serial.print(_pin);
+        Serial.print(F("deconstructed!"));
+    }
+    
     void Sensor::begin()
     {
         _dht.begin();
@@ -21,42 +33,53 @@ namespace sens{
     void Sensor::update_values()
     {
         sensors_event_t event;
+
         // Get temperature event and print its value.
         _dht.temperature().getEvent(&event);
-        if (isnan(event.temperature)) {
+
+        if (isnan(event.temperature)) 
+        {
             Serial.println(F("Error reading temperature!"));
         }
-        else {
+        else 
+        {
             Serial.print(F("Temperature: "));
             Serial.print(event.temperature);
-            inner_temperature = event.temperature;
+            _temperatureC = event.temperature;
             Serial.println(F("°C"));
         }
+
         // Get humidity event and print its value.
         _dht.humidity().getEvent(&event);
-        if (isnan(event.relative_humidity)) {
+
+        if (isnan(event.relative_humidity)) 
+        {
             Serial.println(F("Error reading humidity!"));
         }
-        else {
+        else 
+        {
             Serial.print(F("Humidity: "));
             Serial.print(event.relative_humidity);
-            inner_humidity = event.relative_humidity;
+            _humidity = event.relative_humidity;
             Serial.println(F("%"));
         }
-        calculateHeatIndex(inner_temperature, inner_humidity);
-    }
-    void Sensor::calculateHeatIndex(float temperatureC, float humidity) {
-    // Convert temperature from Celsius to Fahrenheit
-    float temperatureF = (temperatureC * 9.0 / 5.0) + 32.0;
 
-    // Calculate heat index in Fahrenheit using the formula
-    float heatIndexF = -42.379 + 2.04901523 * temperatureF + 10.14333127 * humidity
-                        - 0.22475541 * temperatureF * humidity - 0.00683783 * pow(temperatureF, 2)
-                        - 0.05481717 * pow(humidity, 2) + 0.00122874 * pow(temperatureF, 2) * humidity
-                        + 0.00085282 * temperatureF * pow(humidity, 2) - 0.00000199 * pow(temperatureF, 2) * pow(humidity, 2);
-
-    // Convert heat index back to Celsius
-    float heatIndexC = (heatIndexF - 32.0) * 5.0 / 9.0;
-    inner_heat_index = heatIndexC;
+        calculateHeatIndex();
     }
+
+    void Sensor::calculateHeatIndex()
+    {
+        // Convert temperature from Celsius to Fahrenheit
+        _temperatureF = (_temperatureC * 9.0 / 5.0) + 32.0;
+
+        // Calculate heat index in Fahrenheit using the formula
+        float heatIndexF = -42.379 + 2.04901523 * _temperatureF + 10.14333127 * _humidity
+                            - 0.22475541 * _temperatureF * _humidity - 0.00683783 * pow(_temperatureF, 2)
+                            - 0.05481717 * pow(_humidity, 2) + 0.00122874 * pow(_temperatureF, 2) * _humidity
+                            + 0.00085282 * _temperatureF * pow(_humidity, 2) - 0.00000199 * pow(_temperatureF, 2) * pow(_humidity, 2);
+
+        // Convert heat index back to Celsius
+        _heat_index = (heatIndexF - 32.0) * 5.0 / 9.0;
+    }
+
 } // namespace sens

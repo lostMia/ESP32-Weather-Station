@@ -37,22 +37,22 @@ private:
 
     Status _parse_json(String* presponse);
 public:
-    float air_pressure = -1;    // Air pressure in hPa
-    float humidity = -1;        // Air humidity in % 
-    float rain_amount = -1;     // Amount of rain in mm
-    float rain_duration = -1;   // Time of rain in min
-    float temperature = -1;     // Temperature of the air in °C
-    float wind_direction = -1;  // Direction of the wind in °
-    float wind_speed_average = -1;   // Average wind speed in m/s
-    float wind_speed_max = -1;  // Maximum wind speed in m/s
-    float sunshine_amount = -1; // Amount of sunshine in seconds 
-    float *variables[9]  =      // Pointers to all the Variables in order.
+    float _air_pressure = -1;    // Air pressure in hPa
+    float _humidity = -1;        // Air humidity in % 
+    float _rain_amount = -1;     // Amount of rain in mm
+    float _rain_duration = -1;   // Time of rain in min
+    float _temperature = -1;     // Temperature of the air in °C
+    float _wind_direction = -1;  // Direction of the wind in °
+    float _wind_speed_average = -1;   // Average wind speed in m/s
+    float _wind_speed_max = -1;  // Maximum wind speed in m/s
+    float _sunshine_amount = -1; // Amount of sunshine in seconds 
+    float *_variables[9]  =      // Pointers to all the Variables in order.
     {    
-        &air_pressure, &humidity, &rain_amount, &rain_duration,
-        &temperature, &wind_direction, &wind_speed_average, 
-        &wind_speed_max, &sunshine_amount
+        &_air_pressure, &_humidity, &_rain_amount, &_rain_duration,
+        &_temperature, &_wind_direction, &_wind_speed_average, 
+        &_wind_speed_max, &_sunshine_amount
     };
-    String parameter_strings[9] =      // Pointers to all parameter strings in order.
+    String _parameter_strings[9] =      // Pointers to all parameter strings in order.
     {
         "P", "RFAM", "RR", "RRM", "TL", "DD", "FFAM", "FFX", "SO"
     };

@@ -47,7 +47,7 @@ R"=====(
 
     <script>
         function updateAPIData() {
-            fetch("/data")
+            fetch("/api")
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("pressure").textContent = data.P + " hPa";

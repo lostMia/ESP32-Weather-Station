@@ -13,18 +13,10 @@
 int count = 0;
 
 API::Client api;
+std::vector<sens::Sensor> sensors;
 Web::Server server(WEBSERVER_PORT);
-sens::Sensor sensor;
 
 Status result;
-
-/*
-Todo:
-* Enable the input of multible Sensors on the esp
-  * Use the ESP to scan for possibe 
-
-*/
-
 
 void setup() 
 {
@@ -45,27 +37,18 @@ void setup()
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
-  api.begin();
-  api.update_values();
-  server.begin();
-  sensor.begin();
+  // Add all the sensors to the vector.
+  for (uint8_t pin : SENSOR_PORTS)
+  {
+    sens::Sensor sensor(pin);
+    sensors.push_back(sensor);
+  }
+
+  server.begin(&api, &sensors);
 }
 
 void loop() 
 {
-  if (count > 600)
-  {
-    result = api.update_values();
-
-    if (result == ERROR)
-    {
-      Serial.printf("There was an error getting the values!");
-    }
-    count = 0;
-  }
-  count++;
-
-  sensor.update_values();
-  server.update_values(&api, &sensor);
+  server.update_values();
   delay(1000);
 }
