@@ -11,58 +11,65 @@
 #include "sensor.hpp"
 
 
-namespace sens{
-    
+namespace sens
+{
+
     Sensor::Sensor(uint8_t pin)
     {
         _pin = pin;
     }
-
+   
     Sensor::~Sensor()
     {
-        Serial.print(F("Sensor at pin "));
-        Serial.print(_pin);
-        Serial.print(F("deconstructed!"));
+        if (_dht)
+            delete _dht;
     }
-    
+
     void Sensor::begin()
     {
-        _dht.begin();
+        _dht = new DHT_Unified(_pin, DHTTYPE);
+        _dht->begin();
     }
 
     void Sensor::update_values()
     {
         sensors_event_t event;
+        bool invalid_numbers = false;
 
         // Get temperature event and print its value.
-        _dht.temperature().getEvent(&event);
-
+        _dht->temperature().getEvent(&event);
+        
         if (isnan(event.temperature)) 
         {
+            invalid_numbers = true;
             Serial.println(F("Error reading temperature!"));
         }
         else 
         {
             Serial.print(F("Temperature: "));
             Serial.print(event.temperature);
-            _temperatureC = event.temperature;
             Serial.println(F("°C"));
+            _temperatureC = event.temperature;
         }
 
         // Get humidity event and print its value.
-        _dht.humidity().getEvent(&event);
+        _dht->humidity().getEvent(&event);
 
         if (isnan(event.relative_humidity)) 
         {
+            invalid_numbers = true;
             Serial.println(F("Error reading humidity!"));
         }
         else 
         {
             Serial.print(F("Humidity: "));
             Serial.print(event.relative_humidity);
-            _humidity = event.relative_humidity;
             Serial.println(F("%"));
+            _humidity = event.relative_humidity;
         }
+
+        if (invalid_numbers)
+            return;
 
         calculateHeatIndex();
     }

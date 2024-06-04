@@ -15,12 +15,15 @@
 #include <HTTPClient.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <vector> 
 #include <ArduinoJson.h>
+#include <vector>
+#include <memory>
 
 #include "api.hpp"
 #include "sensor.hpp"
 #include "enums.hpp"
+
+//#define DEFINE_ME_IF_YOURE_GETTING_API_RATELIMITED
 
 namespace Web
 {
@@ -32,7 +35,7 @@ private:
     String _api_data_string;
     String _sensor_data_string;
     API::Client *_p_client;
-    std::vector<sens::Sensor> *_p_sensors;
+    std::vector<std::unique_ptr<sens::Sensor>> *_p_sensors;
     
     
     void _add_to_json_string(String* string, String* parameter, float* value);
@@ -41,7 +44,7 @@ private:
 public:
     Server(uint16_t port);
 
-    void begin(API::Client *client, std::vector<sens::Sensor> *sensors);
+    void begin(API::Client *client, std::vector<std::unique_ptr<sens::Sensor>> *sensors);
     void update_values();
 };
 

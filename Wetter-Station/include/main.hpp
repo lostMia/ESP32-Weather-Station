@@ -15,7 +15,7 @@
 #include <credentials.hpp> 
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <vector>
+#include <memory>
 
 #include "webserver.hpp"
 #include "api.hpp"
@@ -36,5 +36,4 @@
 
 #define WEBSERVER_PORT 80
 
-#define SENSOR_PORTS { 4, 5 }
-
+#define SENSOR_PORTS { 0, 2, 5, 0 }

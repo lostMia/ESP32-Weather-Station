@@ -26,6 +26,10 @@ R"=====(
                 background-color: #222222;
                 color: white;
             }
+            
+            div {
+                background-color: #444444;
+            }
         </style>
 </head>
 <body>
@@ -41,7 +45,7 @@ R"=====(
     <p>Wind Maximalgeschwindigkeit: <span id="wind_speed_max">Loading...</span> m/s</p>
     <p>Sonnenschein: <span id="sunshine_amount">Loading...</span> sekunden</p>
     <h3>Sensordaten</h3>
-    <div id="sensor-data-container">
+    <div id="sensor_data">
         Loading data...
     </div>
 
@@ -50,15 +54,15 @@ R"=====(
             fetch("/api")
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById("pressure").textContent = data.P + " hPa";
-                    document.getElementById("humidity").textContent = data.RFAM + " %";
-                    document.getElementById("rain_amount").textContent = data.RR + " mm";
-                    document.getElementById("rain_duration").textContent = data.RRM + " min";
-                    document.getElementById("temperature").textContent = data.TL + " °C";
-                    document.getElementById("wind_direction").textContent = data.DD + " degrees";
-                    document.getElementById("wind_speed_average").textContent = data.FFAM + " m/s";
-                    document.getElementById("wind_speed_max").textContent = data.FFX + " m/s";
-                    document.getElementById("sunshine_amount").textContent = data.SO + " seconds";
+                    document.getElementById("pressure").textContent = data.P;
+                    document.getElementById("humidity").textContent = data.RFAM;
+                    document.getElementById("rain_amount").textContent = data.RR;
+                    document.getElementById("rain_duration").textContent = data.RRM;
+                    document.getElementById("temperature").textContent = data.TL;
+                    document.getElementById("wind_direction").textContent = data.DD;
+                    document.getElementById("wind_speed_average").textContent = data.FFAM;
+                    document.getElementById("wind_speed_max").textContent = data.FFX;
+                    document.getElementById("sunshine_amount").textContent = data.SO;
             })
             .catch(error => console.error('Error fetching API Data!:', error));
         }
@@ -72,19 +76,19 @@ R"=====(
                 const data = await response.json();
                 updateSensorUI(data);
             } catch (error) {
-                console.error('Error fetching data:', error);
-                document.getElementById("sensor-data-container").textContent = 'Error fetching data';
+                console.error('Error fetching Sensor Data!:', error);
+                document.getElementById("sensor_data").textContent = 'Error fetching Sensor Data';
             }
         }
 
         function updateSensorUI(data) {
-            const container = document.getElementById("data-container");
+            const container = document.getElementById("sensor_data");
             container.innerHTML = ''; // Clear existing content
 
             data.forEach(sensor => {
                 const div = document.createElement("div");
                 div.className = "sensor-data";
-                div.textContent = `Sensor ${sensor.id} - Temperature: ${sensor.temperature} °C, Humidity: ${sensor.humidity} %`;
+                div.textContent = `Sensor ${sensor.id}\nTemperature C: ${sensor.temperatureC} °C\nTemperature F: ${sensor.temperatureF} °F\nHumidity: ${sensor.humidity} %\nHeat Index C ${sensor.heat_index} °C`;
                 container.appendChild(div);
             });
         }

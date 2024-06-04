@@ -13,7 +13,7 @@
 int count = 0;
 
 API::Client api;
-std::vector<sens::Sensor> sensors;
+std::vector<std::unique_ptr<sens::Sensor>> sensors;
 Web::Server server(WEBSERVER_PORT);
 
 Status result;
@@ -37,11 +37,11 @@ void setup()
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
-  // Add all the sensors to the vector.
-  for (uint8_t pin : SENSOR_PORTS)
+  Serial.print("\n\n");
+
+  for (uint8_t pin : SENSOR_PORTS) 
   {
-    sens::Sensor sensor(pin);
-    sensors.push_back(sensor);
+    sensors.push_back(std::make_unique<sens::Sensor>(pin));
   }
 
   server.begin(&api, &sensors);

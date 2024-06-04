@@ -22,26 +22,27 @@ namespace sens
 class Sensor
 {
 private:
-    DHT_Unified _dht{_pin, DHTTYPE};
-    uint8_t _pin = 0;
+    DHT_Unified *_dht;
 public:
+    uint8_t _pin = 0;
     float _temperatureC = -1;
     float _temperatureF = -1;
     float _humidity = -1;
     float _heat_index = -1;
-    float *_variables[3] = 
+    float *_variables[4] = 
     {
-        &_temperatureC, &_humidity, &_heat_index
+        &_temperatureC, &_temperatureF, &_humidity, &_heat_index
     };
     
-    String _parameter_strings[3] = 
-    {"temperature", "humidity", "heat_index"};
-
+    String _parameter_strings[4] = 
+    {
+        "temperatureC", "temperatureF", "humidity", "heat_index"
+    };
 
     Sensor(uint8_t pin);
 
     ~Sensor();
-    
+
     void begin();
     void update_values();
     void calculateHeatIndex();

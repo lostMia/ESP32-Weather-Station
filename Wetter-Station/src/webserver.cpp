@@ -49,30 +49,30 @@ void Server::_update_sensor_string()
   JsonArray array = json_doc.to<JsonArray>();
 
   uint8_t id = 0;
-  for (const sens::Sensor &sensor : *_p_sensors) {
-      JsonObject obj = array.createNestedObject();
+  for (auto &sensor : *_p_sensors) {
+    JsonObject obj = array.add<JsonObject>();
 
-      obj["id"] = id;
-      obj["temperatureC"] = sensor._temperatureC;
-      obj["temperatureF"] = sensor._temperatureF;
-      obj["humidity"] = sensor._humidity;
-      obj["heat_index"] = sensor._heat_index;
+    obj["id"] = id;
+    obj["temperatureC"] = sensor->_temperatureC;
+    obj["temperatureF"] = sensor->_temperatureF;
+    obj["humidity"] = sensor->_humidity;
+    obj["heat_index"] = sensor->_heat_index;
 
-      id++;
+    id++;
   }
 
   serializeJson(json_doc, _sensor_data_string);
 }
 
-void Server::begin(API::Client *client, std::vector<sens::Sensor> *sensors) 
+void Server::begin(API::Client *client, std::vector<std::unique_ptr<sens::Sensor>> *sensors) 
 {
   _p_client = client;
   _p_sensors = sensors;
 
   client->begin();
 
-  for (sens::Sensor &sensor : *_p_sensors)
-    sensor.begin();
+  for (auto &sensor : *_p_sensors)
+    sensor->begin();
 
   _server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) 
   {
@@ -92,10 +92,12 @@ void Server::begin(API::Client *client, std::vector<sens::Sensor> *sensors)
 
 void Server::update_values() 
 {
+#ifndef DEFINE_ME_IF_YOURE_GETTING_API_RATELIMITED
   _p_client->update_values();
+#endif
   
-  for (sens::Sensor &sensor : *_p_sensors)
-    sensor.update_values();
+  for (auto &sensor : *_p_sensors)
+    sensor->update_values();
 
   _update_api_string();
   _update_sensor_string();
