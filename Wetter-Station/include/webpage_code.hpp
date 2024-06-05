@@ -22,33 +22,44 @@ R"=====(
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">
     <title>ESP32 Wetter</title>
     <style>
+	    * {
+		font-family: 'Tahoma', sans-serif;
+	    }
+
             body {
-                background-color: #222222;
+		background-image: url('https://images.hdqwalls.com/wallpapers/cloud-view-from-flight-4k-16.jpg');
+		background-repeat: no-repeat;
+  		background-attachment: fixed;
+  		background-size: cover;
                 color: white;
             }
-            
+
             div {
-                background-color: #444444;
+                background-color: #22222250;
+		padding: 10px 10px 10px 10px;
             }
         </style>
 </head>
 <body>
     <h1>ESP32 Wetter</h1>
-    <h3>API Innsbruck Wetter Station</h3>
-    <p>Luftdruck: <span id="pressure">Loading...</span> hPa</p>
-    <p>Feuchtigkeit: <span id="humidity">Loading...</span> %</p>
-    <p>Niederschlag: <span id="rain_amount">Loading...</span> mm</p>
-    <p>Niederschlag dauer: <span id="rain_duration">Loading...</span> minuten</p>
-    <p>Temperatur: <span id="temperature">Loading...</span> C</p>
-    <p>Wind Richtung: <span id="wind_direction">Loading...</span> degrees</p>
-    <p>Wind Durchschnittsgeschwindigkeit: <span id="wind_speed_average">Loading...</span> m/s</p>
-    <p>Wind Maximalgeschwindigkeit: <span id="wind_speed_max">Loading...</span> m/s</p>
-    <p>Sonnenschein: <span id="sunshine_amount">Loading...</span> sekunden</p>
+    <div>
+    	<h3>API Innsbruck Wetter Station</h3>
+    	<p>Luftdruck: <span id="pressure">Loading...</span> hPa</p>
+    	<p>Feuchtigkeit: <span id="humidity">Loading...</span> %</p>
+    	<p>Niederschlag: <span id="rain_amount">Loading...</span> mm</p>
+    	<p>Niederschlag dauer: <span id="rain_duration">Loading...</span> minuten</p>
+    	<p>Temperatur: <span id="temperature">Loading...</span> C</p>
+    	<p>Wind Richtung: <span id="wind_direction">Loading...</span> degrees</p>
+    	<p>Wind Durchschnittsgeschwindigkeit: <span id="wind_speed_average">Loading...</span> m/s</p>
+    	<p>Wind Maximalgeschwindigkeit: <span id="wind_speed_max">Loading...</span> m/s</p>
+    	<p>Sonnenschein: <span id="sunshine_amount">Loading...</span> sekunden</p>
+    </div>	
     <h3>Sensordaten</h3>
-    <div id="sensor_data">
-        Loading data...
+    <div>
+    	<div id="sensor_data">
+        	Loading data...
+    	</div>
     </div>
-
     <script>
         function updateAPIData() {
             fetch("/api")
@@ -66,7 +77,7 @@ R"=====(
             })
             .catch(error => console.error('Error fetching API Data!:', error));
         }
-        
+
         async function updateSensorData() {
             try {
                 const response = await fetch("/sensors");
