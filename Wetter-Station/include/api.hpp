@@ -17,7 +17,6 @@
                     "&station_ids=11035" \
                     "&output_format=geojson"
 
-#define API_QUERY_DELAY 60 * 10 * 1000  // Wait 10 minutes between every request
 
 #include <HTTPClient.h>
 #include <ArduinoJson.h>

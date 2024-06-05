@@ -49,6 +49,5 @@ void setup()
 
 void loop() 
 {
-  server.update_values();
-  delay(1000);
+  server.serve();
 }

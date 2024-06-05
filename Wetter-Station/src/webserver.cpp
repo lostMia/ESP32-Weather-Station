@@ -90,17 +90,35 @@ void Server::begin(API::Client *client, std::vector<std::unique_ptr<sens::Sensor
   _server.begin();
 }
 
-void Server::update_values() 
+void Server::serve()
 {
-#ifndef DEFINE_ME_IF_YOURE_GETTING_API_RATELIMITED
-  _p_client->update_values();
-#endif
-  
-  for (auto &sensor : *_p_sensors)
-    sensor->update_values();
+  unsigned long current_time = millis();
+  unsigned long last_api_update_time = current_time;
+  unsigned long last_sensor_update_time =  current_time;
 
-  _update_api_string();
-  _update_sensor_string();
+  while (true)
+  {
+    current_time = millis();
+
+#ifndef DISABLE_API
+    if (current_time - last_api_update_time > API_QUERY_DELAY)
+    {
+      last_api_update_time = current_time;
+
+      _p_client->update_values();
+      _update_api_string();
+    }
+#endif
+    
+    if (current_time - last_sensor_update_time > SENSOR_UPDATE_DELAY)
+    {
+      last_sensor_update_time = current_time;
+      for (auto &sensor : *_p_sensors)
+        sensor->update_values();
+
+      _update_sensor_string();
+    }
+  }
 }
 
 } // namespace Web

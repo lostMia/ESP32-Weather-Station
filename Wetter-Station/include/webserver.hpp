@@ -23,7 +23,10 @@
 #include "sensor.hpp"
 #include "enums.hpp"
 
-//#define DEFINE_ME_IF_YOURE_GETTING_API_RATELIMITED
+//#define DISABLE_API
+
+#define SENSOR_UPDATE_DELAY 500        // 1 Second
+#define API_QUERY_DELAY 10 * 60 * 1000 // 10 Minutes
 
 namespace Web
 {
@@ -36,8 +39,7 @@ private:
     String _sensor_data_string;
     API::Client *_p_client;
     std::vector<std::unique_ptr<sens::Sensor>> *_p_sensors;
-    
-    
+        
     void _add_to_json_string(String* string, String* parameter, float* value);
     void _update_api_string();
     void _update_sensor_string();
@@ -45,7 +47,7 @@ public:
     Server(uint16_t port);
 
     void begin(API::Client *client, std::vector<std::unique_ptr<sens::Sensor>> *sensors);
-    void update_values();
+    void serve();
 };
 
 } // namespace Web
