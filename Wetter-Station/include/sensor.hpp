@@ -13,6 +13,7 @@
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
+#include <math.h>
 
 #define DHTTYPE    DHT22     // DHT 22
 
@@ -27,16 +28,17 @@ public:
     uint8_t _pin = 0;
     float _temperatureC = -1;
     float _temperatureF = -1;
+    float _heat_indexC = -1;
+    float _heat_indexF = -1;
     float _humidity = -1;
-    float _heat_index = -1;
-    float *_variables[4] = 
+    float *_variables[5] = 
     {
-        &_temperatureC, &_temperatureF, &_humidity, &_heat_index
+        &_temperatureC, &_temperatureF, &_heat_indexC, &_heat_indexF, &_humidity
     };
     
-    String _parameter_strings[4] = 
+    const String _parameter_strings[5] = 
     {
-        "temperatureC", "temperatureF", "humidity", "heat_index"
+        "temperatureC", "temperatureF", "heat_indexC", "heat_indexF", "humidity"
     };
 
     Sensor(uint8_t pin);
@@ -45,8 +47,7 @@ public:
 
     void begin();
     void update_values();
-    void calculateHeatIndex();
-
+    void calculate_heat_index();
 };
 
 } // namespace sens

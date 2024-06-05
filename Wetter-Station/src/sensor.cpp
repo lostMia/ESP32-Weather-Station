@@ -71,22 +71,25 @@ namespace sens
         if (invalid_numbers)
             return;
 
-        calculateHeatIndex();
+        calculate_heat_index();
     }
 
-    void Sensor::calculateHeatIndex()
+    void Sensor::calculate_heat_index()
     {
         // Convert temperature from Celsius to Fahrenheit
         _temperatureF = (_temperatureC * 9.0 / 5.0) + 32.0;
 
         // Calculate heat index in Fahrenheit using the formula
-        float heatIndexF = -42.379 + 2.04901523 * _temperatureF + 10.14333127 * _humidity
+        float heat_indexF = -42.379 + 2.04901523 * _temperatureF + 10.14333127 * _humidity
                             - 0.22475541 * _temperatureF * _humidity - 0.00683783 * pow(_temperatureF, 2)
                             - 0.05481717 * pow(_humidity, 2) + 0.00122874 * pow(_temperatureF, 2) * _humidity
                             + 0.00085282 * _temperatureF * pow(_humidity, 2) - 0.00000199 * pow(_temperatureF, 2) * pow(_humidity, 2);
 
         // Convert heat index back to Celsius
-        _heat_index = (heatIndexF - 32.0) * 5.0 / 9.0;
+        float heat_indexC = (heat_indexF - 32.0) * 5.0 / 9.0;
+
+        _heat_indexC = heat_indexC;
+        _heat_indexF = heat_indexF;
     }
 
 } // namespace sens

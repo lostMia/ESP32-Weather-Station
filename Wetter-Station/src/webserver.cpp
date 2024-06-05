@@ -44,21 +44,24 @@ void Server::_update_api_string()
 
 void Server::_update_sensor_string()
 { 
+  uint8_t variables_max = sizeof((*_p_sensors)[0]->_variables) / __SIZEOF_FLOAT__;
   JsonDocument json_doc;
 
   JsonArray array = json_doc.to<JsonArray>();
 
   uint8_t id = 0;
-  for (auto &sensor : *_p_sensors) {
+  for (auto &sensor : *_p_sensors) 
+  {
     JsonObject obj = array.add<JsonObject>();
+    for (uint8_t count = 0; count < variables_max; count++)
+    {
+      String parameter_string = sensor->_parameter_strings[count];
+      String value_string = String(*sensor->_variables[count], 2);
 
-    obj["id"] = id;
-    obj["temperatureC"] = sensor->_temperatureC;
-    obj["temperatureF"] = sensor->_temperatureF;
-    obj["humidity"] = sensor->_humidity;
-    obj["heat_index"] = sensor->_heat_index;
+      obj[parameter_string] = value_string;
+    }
 
-    id++;
+    obj["id"] = id++;
   }
 
   serializeJson(json_doc, _sensor_data_string);
@@ -93,8 +96,8 @@ void Server::begin(API::Client *client, std::vector<std::unique_ptr<sens::Sensor
 void Server::serve()
 {
   unsigned long current_time = millis();
-  unsigned long last_api_update_time = current_time;
-  unsigned long last_sensor_update_time =  current_time;
+  unsigned long last_api_update_time = current_time + API_QUERY_DELAY;
+  unsigned long last_sensor_update_time =  current_time + SENSOR_UPDATE_DELAY;
 
   while (true)
   {
