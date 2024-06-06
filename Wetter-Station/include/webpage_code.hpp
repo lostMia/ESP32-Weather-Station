@@ -107,11 +107,11 @@ R"=====(
                         sensorDiv.appendChild(tempFP);
 
                         const heatCP = document.createElement('p');
-                        heatCP.textContent = `Temperature: ${sensor.heat_indexC} °C`;
+                        heatCP.textContent = `Heatindex: ${sensor.heat_indexC} °C`;
                         sensorDiv.appendChild(heatCP);
 
                         const heatFP = document.createElement('p');
-                        heatFP.textContent = `Temperature: ${sensor.heat_indexF} °C`;
+                        heatFP.textContent = `Heatindex ${sensor.heat_indexF} °F`;
                         sensorDiv.appendChild(heatFP);
 
                         const humP = document.createElement('p');
