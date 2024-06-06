@@ -36,4 +36,4 @@
 
 #define WEBSERVER_PORT 80
 
-#define SENSOR_PORTS { 0, 2, 5, 0 }
+#define SENSOR_PORTS { 0, 2, 4 }
