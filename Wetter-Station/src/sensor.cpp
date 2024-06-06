@@ -43,6 +43,7 @@ namespace sens
         {
             invalid_numbers = true;
             Serial.println(F("Error reading temperature!"));
+            _temperatureC = -1;
         }
         else 
         {
@@ -59,6 +60,7 @@ namespace sens
         {
             invalid_numbers = true;
             Serial.println(F("Error reading humidity!"));
+            _humidity = -1;
         }
         else 
         {

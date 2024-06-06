@@ -52,6 +52,9 @@ void Server::_update_sensor_string()
   uint8_t id = 0;
   for (auto &sensor : *_p_sensors) 
   {
+    if (sensor->_temperatureC == -1)
+        continue;
+
     JsonObject obj = array.add<JsonObject>();
     for (uint8_t count = 0; count < variables_max; count++)
     {
