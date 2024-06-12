@@ -10,6 +10,7 @@
 
 #include "webserver.hpp"
 #include "webpage_code.hpp"
+#include "doku.hpp"
 
 namespace Web
 {
@@ -91,6 +92,10 @@ void Server::begin(API::Client *client, std::vector<std::unique_ptr<sens::Sensor
   _server.on("/sensors", HTTP_GET, [this](AsyncWebServerRequest* request) 
   {
     request->send(200, "text/plain", _sensor_data_string.c_str());
+  });
+  _server.on("/doku", HTTP_GET, [](AsyncWebServerRequest *request) 
+  {
+    request->send_P(200, "text/html", doku_HTML);
   });
 
   _server.begin();

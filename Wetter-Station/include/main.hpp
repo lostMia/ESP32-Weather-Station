@@ -1,4 +1,4 @@
-/*
+ /*
  * @file main.hpp
  * @authors lostmia
  * @brief 
@@ -36,4 +36,4 @@
 
 #define WEBSERVER_PORT 80
 
-#define SENSOR_PORTS { 0, 2, 4 }
+#define SENSOR_PORTS { 0, 2, 4, 16, 17, 5 }

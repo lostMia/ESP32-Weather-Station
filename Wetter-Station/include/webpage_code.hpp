@@ -61,6 +61,17 @@ R"=====(
             border: 3px solid #ff9966;
             border-radius: 10px;
         }
+        .button {
+            border-width: 10;
+            border-color: rgb(0, 0, 0);
+            background-color: #ff9966;
+            color: rgb(0, 0, 0);
+            padding: 14px 28px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+        }
     </style>
 </head>
 <body>
@@ -140,12 +151,16 @@ R"=====(
             })
             .catch(error => console.error('Error fetching API Data!:', error));
         }
-
+        function movetoDoku() {
+            window.location.href = "/doku";
+        }
         updateSensorData();
         setInterval(updateSensorData, 500)
         updateAPIData();
         setInterval(updateAPIData, 1000);
     </script>
+    <input type="submit" onClick="movetoDoku()" value="Dokumentation" class="button" />
+</a>
 </body>
 </html>
 )=====";
