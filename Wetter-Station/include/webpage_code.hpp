@@ -28,6 +28,7 @@ R"=====(
   		    background-attachment: fixed;
   		    background-size: cover;
             color: white;
+            font-size: 16px;
 		    font-family: 'Tahoma', sans-serif;
         }
 
@@ -35,7 +36,7 @@ R"=====(
         .data-container {
             display: flex;
             flex-direction: column;
-            background-color: #22222250;
+            background-color: #22222290;
 		    padding: 20px;
             margin: 20px;
             border: 3px solid #ffff70;
@@ -44,7 +45,7 @@ R"=====(
         
         .sensor-container {
             flex-direction: row;
-            background-color: #22222250;
+            background-color: #22222290;
         }
 
         .title {
@@ -61,13 +62,13 @@ R"=====(
             border: 3px solid #ff9966;
             border-radius: 10px;
         }
+
         .button {
-            border-width: 10;
-            border-color: rgb(0, 0, 0);
+            border-radius: 10px;
             background-color: #ff9966;
             color: rgb(0, 0, 0);
             padding: 14px 28px;
-            font-size: 16px;
+            font-size: 20px;
             cursor: pointer;
             text-align: center;
             position: relative;
@@ -76,7 +77,7 @@ R"=====(
     </style>
 </head>
 <body>
-    <h1>Wetter in Innsbruck</h1>
+    <h1 class=title>Wetter in Innsbruck</h1>
     <div>
         <div class="data-container">
     	    <h3>API Innsbruck Wetter Station</h3>
