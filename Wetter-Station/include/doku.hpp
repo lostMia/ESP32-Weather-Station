@@ -30,14 +30,14 @@ R"=====(
             color: white;
             font-size: 16px;
             font-family: 'Tahoma', sans-serif;
-            transform: translateX(-100%);
-            animation: slideInLeft 1s forwards;
+            transform: scale(0.5);
+            animation: zoomIn 0.3s forwards;
         }
 
-        @keyframes slideInLeft {
-            to {
-                transform: translateX(0);
-            }
+        @keyframes zoomIn {
+          to {
+            transform: scale(1);
+          }
         }
 
         .docu-container {
@@ -68,6 +68,11 @@ R"=====(
             text-align: center;
             position: relative;
             left: 50%;
+        }
+        
+        .button:hover {
+            border: 3px solid #ffff70;
+            color: #ffffff;
         }
         
         pre {

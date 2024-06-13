@@ -30,6 +30,14 @@ R"=====(
             color: white;
             font-size: 16px;
 		    font-family: 'Tahoma', sans-serif;
+            transform: scale(0.5);
+            animation: zoomIn 0.3s forwards;
+        }
+
+        @keyframes zoomIn {
+          to {
+            transform: scale(1);
+          }
         }
 
         .sensor-container,
@@ -74,6 +82,11 @@ R"=====(
             text-align: center;
             position: relative;
             left: 50%;
+        }
+        
+        .button:hover {
+            border: 3px solid #ffff70;
+            color: #ffffff;
         }
     </style>
 </head>
