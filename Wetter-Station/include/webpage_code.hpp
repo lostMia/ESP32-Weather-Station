@@ -64,6 +64,7 @@ R"=====(
         }
 
         .button {
+            border: none;
             border-radius: 10px;
             background-color: #ff9966;
             color: rgb(0, 0, 0);
