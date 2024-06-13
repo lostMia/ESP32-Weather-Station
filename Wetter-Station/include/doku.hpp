@@ -30,6 +30,14 @@ R"=====(
             color: white;
             font-size: 16px;
             font-family: 'Tahoma', sans-serif;
+            transform: translateX(-100%);
+            animation: slideInLeft 1s forwards;
+        }
+
+        @keyframes slideInLeft {
+            to {
+                transform: translateX(0);
+            }
         }
 
         .docu-container {
@@ -42,8 +50,6 @@ R"=====(
             border-radius: 20px;
         }
         
-        
-
         .title {
             padding: 5px;
             border: 3px dashed #ff8080;
@@ -66,15 +72,17 @@ R"=====(
         
         pre {
             background-color: #22222290;
+
             padding: 10px;
             border-radius: 5px;
+            display: inline-block;
             overflow: auto;
             font-size: 14px;
             line-height: 1.6;
         }
 
         code {
-          padding: 10px;
+          padding: 0px 10px;
           border-radius: 10px;
           font-family: 'Courier New', Courier, monospace;
         }
@@ -82,12 +90,6 @@ R"=====(
         pre code {
           color: #ffffff;
         }
-
-        pre code .keyword { color: #d73a49; }
-        pre code .string { color: #032f62; }
-        pre code .comment { color: #6a737d; font-style: italic; }
-        pre code .function { color: #005cc5; }
-        pre code .number { color: #005cc5; } 
     </style>
 </head>
 <body>
@@ -104,17 +106,17 @@ R"=====(
         <p>Es werden Luftdruck(P), Luftfeuchtigkeit(RFAM), Niederschlagsmenge(RR), Niederschlagsdauer(RRM) Temperatur(TL), Windrichtung(DD), Durchschnittliche Windgeschwindigkeit(FFAM), Maximale Windgeschwindigkeit(FFX) und Sonnenschein dauer(SO) zurückgegeben.</p>
         <h3>Beispiel:</h3>
         <pre><code id="json">
-            {
-               "P":992.40,
-               "RFAM":59.00,
-               "RR":0.00,
-               "RRM":0.00,
-               "TL":16.50,
-               "DD":308.00,
-               "FFAM":1.50,
-               "FFX":2.70,
-               "SO":0.00
-            }
+    {
+       "P":992.40,
+       "RFAM":59.00,
+       "RR":0.00,
+       "RRM":0.00,
+       "TL":16.50,
+       "DD":308.00,
+       "FFAM":1.50,
+       "FFX":2.70,
+       "SO":0.00
+    }
         </code></pre>
     </div>
     <div class=docu-container>
@@ -124,38 +126,37 @@ R"=====(
         <p>Es werden die Temperatur in Celsius(temperatureC), die Temperatur in Fahrenheit(temperatureF), der Hitzeindex in Celsius und Fahrenheit(heat_indexC, heat_indexF), die Luftfeuchtigkeit in Prozent(humidity) und die ID des sensors beginnent mit 0 (id) zurückgegeben</p>
         <h3>Beispiel bei einem sensor:</h3>
         <pre><code id="json">
-            [
-              {
-                "temperatureC": "21.60",
-                "temperatureF": "70.88",
-                "heat_indexC": "24.92",
-                "heat_indexF": "76.85",
-                "humidity": "50.40",
-                "id": 0
-              }
-            ]
-
+    [
+        {
+        "temperatureC": "21.60",
+        "temperatureF": "70.88",
+        "heat_indexC": "24.92",
+        "heat_indexF": "76.85",
+        "humidity": "50.40",
+        "id": 0
+        }
+    ]
         </code></pre>
         <h3>Beispiel bei zwei Sensoren:</h3>
         <pre><code id="json">
-            [
-              {
-                "temperatureC": "21.70",
-                "temperatureF": "71.06",
-                "heat_indexC": "24.92",
-                "heat_indexF": "76.85",
-                "humidity": "50.40",
-                "id": 0
-              },
-              {
-                "temperatureC": "21.70",
-                "temperatureF": "71.06",
-                "heat_indexC": "24.92",
-                "heat_indexF": "76.86",
-                "humidity": "50.20",
-                "id": 1
-              }
-            ]
+    [
+      {
+        "temperatureC": "21.70",
+        "temperatureF": "71.06",
+        "heat_indexC": "24.92",
+        "heat_indexF": "76.85",
+        "humidity": "50.40",
+        "id": 0
+      },
+      {
+        "temperatureC": "21.70",
+        "temperatureF": "71.06",
+        "heat_indexC": "24.92",
+        "heat_indexF": "76.86",
+        "humidity": "50.20",
+        "id": 1
+      }
+    ]
         </code></pre>
     </div>
     <input type="submit" onClick="movetoHome()" value="Zurück" class="button" />
