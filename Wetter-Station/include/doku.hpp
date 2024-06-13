@@ -46,6 +46,7 @@ R"=====(
             cursor: pointer;
             text-align: center;
             position: relative;
+            left: 50%;
 
         }
     </style>
